@@ -687,25 +687,27 @@
           <div class="modal-body">
             <p class="mb-4">Ready to start your drumming journey? Book a 30-minute trial lesson to see if we're a good fit!</p>
 
-            <form id="bookingForm" novalidate>
+            <form id="bookingForm" action="https://formspree.io/f/xdkrnndw" method="POST" novalidate>
+              <input type="hidden" name="form_type" value="booking_request" />
+
               <div class="mb-3">
                 <label for="bookingName" class="form-label">Name</label>
-                <input type="text" class="form-control" id="bookingName" required />
+                <input type="text" class="form-control" id="bookingName" name="name" required />
               </div>
 
               <div class="mb-3">
                 <label for="bookingEmail" class="form-label">Email</label>
-                <input type="email" class="form-control" id="bookingEmail" required />
+                <input type="email" class="form-control" id="bookingEmail" name="email" required />
               </div>
 
               <div class="mb-3">
                 <label for="bookingPhone" class="form-label">Phone (optional)</label>
-                <input type="tel" class="form-control" id="bookingPhone" />
+                <input type="tel" class="form-control" id="bookingPhone" name="phone" />
               </div>
 
               <div class="mb-3">
                 <label for="bookingPreference" class="form-label">Lesson Type</label>
-                <select class="form-select" id="bookingPreference" required>
+                <select class="form-select" id="bookingPreference" name="lesson_type" required>
                   <option value="">Choose...</option>
                   <option value="individual">Individual (One-on-One)</option>
                   <option value="group">Small Group</option>
@@ -714,7 +716,7 @@
 
               <div class="mb-3">
                 <label for="bookingMessage" class="form-label">Tell me about your experience (optional)</label>
-                <textarea class="form-control" id="bookingMessage" rows="3"></textarea>
+                <textarea class="form-control" id="bookingMessage" name="experience" rows="3"></textarea>
               </div>
 
               <button type="submit" class="btn btn-primary w-100">Submit Request</button>
@@ -1009,6 +1011,19 @@
             <img src="assets/images/gallery/gig-6.webp" alt="Live performance on stage" class="img-fluid w-100" />
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- Notification Component -->
+    <div id="notification" class="notification" role="status" aria-live="polite" aria-atomic="true">
+      <div class="notification-content">
+        <div class="notification-icon">
+          <i class="bi bi-check-circle-fill"></i>
+        </div>
+        <p class="notification-message mb-0">Message goes here</p>
+        <button class="notification-close" aria-label="Close notification">
+          <i class="bi bi-x-lg"></i>
+        </button>
       </div>
     </div>
 

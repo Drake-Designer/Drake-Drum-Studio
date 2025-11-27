@@ -68,6 +68,51 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // ========================================
+// NOTIFICATION COMPONENT
+// ========================================
+function showNotification(type, message) {
+  const notification = document.getElementById('notification');
+  const messageElement = notification.querySelector('.notification-message');
+  const iconElement = notification.querySelector('.notification-icon i');
+
+  // Set message
+  messageElement.textContent = message;
+
+  // Remove previous type classes
+  notification.classList.remove('success', 'error');
+
+  // Add type class and set icon
+  if (type === 'success') {
+    notification.classList.add('success');
+    iconElement.className = 'bi bi-check-circle-fill';
+  } else if (type === 'error') {
+    notification.classList.add('error');
+    iconElement.className = 'bi bi-exclamation-triangle-fill';
+  }
+
+  // Show notification
+  notification.classList.add('show');
+
+  // Auto-hide after 5 seconds
+  setTimeout(() => {
+    hideNotification();
+  }, 5000);
+}
+
+function hideNotification() {
+  const notification = document.getElementById('notification');
+  notification.classList.remove('show');
+}
+
+// Close notification on button click
+document.addEventListener('DOMContentLoaded', function () {
+  const closeButton = document.querySelector('.notification-close');
+  if (closeButton) {
+    closeButton.addEventListener('click', hideNotification);
+  }
+});
+
+// ========================================
 // CONTACT FORM SUBMISSION VIA FORMSPREE
 // ========================================
 const contactForm = document.getElementById('contactForm');
@@ -78,10 +123,11 @@ if (contactForm) {
     if (!this.checkValidity()) {
       e.stopPropagation();
       this.classList.add('was-validated');
+      showNotification('error', 'Please fill in all required fields correctly.');
     } else {
       // Form is valid - submit to Formspree
       const formData = new FormData(this);
-      const formSuccess = document.getElementById('formSuccess');
+      const userName = formData.get('name') || 'there';
 
       try {
         const response = await fetch('https://formspree.io/f/xdkrnndw', {
@@ -93,57 +139,77 @@ if (contactForm) {
         });
 
         if (response.ok) {
-          // Success - show success message
-          if (formSuccess) {
-            formSuccess.classList.remove('d-none');
-          }
+          // Success - show personalized notification
+          showNotification(
+            'success',
+            `Thank you, ${userName}! Your message has been sent. I will get back to you as soon as possible.`
+          );
 
           // Reset form
           this.reset();
           this.classList.remove('was-validated');
-
-          // Hide success message after 5 seconds
-          setTimeout(() => {
-            if (formSuccess) {
-              formSuccess.classList.add('d-none');
-            }
-          }, 5000);
         } else {
           // Error response from Formspree
-          alert('Something went wrong while sending your message. Please try again later.');
+          showNotification('error', 'Something went wrong while sending your message. Please try again later.');
         }
       } catch (error) {
         // Network error
-        alert('Something went wrong while sending your message. Please try again later.');
+        showNotification('error', 'Something went wrong while sending your message. Please try again later.');
       }
     }
   });
 }
 
 // ========================================
-// BOOKING FORM VALIDATION
+// BOOKING FORM SUBMISSION VIA FORMSPREE
 // ========================================
 const bookingForm = document.getElementById('bookingForm');
 if (bookingForm) {
-  bookingForm.addEventListener('submit', function (e) {
+  bookingForm.addEventListener('submit', async function (e) {
     e.preventDefault();
 
     if (!this.checkValidity()) {
       e.stopPropagation();
       this.classList.add('was-validated');
+      showNotification('error', 'Please fill in all required fields correctly.');
     } else {
-      // Form is valid - close modal and show success
-      const modal = bootstrap.Modal.getInstance(document.getElementById('bookingModal'));
-      if (modal) {
-        modal.hide();
+      // Form is valid - submit to Formspree
+      const formData = new FormData(this);
+      const userName = formData.get('name') || 'there';
+
+      try {
+        const response = await fetch('https://formspree.io/f/xdkrnndw', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            Accept: 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          // Success - close modal
+          const modal = bootstrap.Modal.getInstance(document.getElementById('bookingModal'));
+          if (modal) {
+            modal.hide();
+          }
+
+          // Show personalized success notification
+          showNotification(
+            'success',
+            `Thank you, ${userName}! Your trial lesson request has been submitted. I will contact you soon.`
+          );
+
+          // Reset form
+          this.reset();
+          this.classList.remove('was-validated');
+        } else {
+          // Error response from Formspree
+          showNotification('error', 'Something went wrong while submitting your request. Please try again later.');
+        }
+      } catch (error) {
+        // Network error
+        showNotification('error', 'Something went wrong while submitting your request. Please try again later.');
       }
-
-      // Show alert
-      alert('Thank you! Your trial lesson request has been submitted. We will contact you soon!');
-
-      // Reset form
-      this.reset();
-      this.classList.remove('was-validated');
     }
   });
 }

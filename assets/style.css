@@ -1321,6 +1321,149 @@ section:last-of-type {
 }
 
 /* ========================================
+   ERROR PAGES (404, ERROR)
+   ======================================== */
+.error-page-section {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, var(--color-bg-dark) 0%, #2c3e50 100%);
+  color: var(--color-text-on-dark);
+}
+
+.error-content {
+  padding: var(--spacing-2xl);
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 107, 53, 0.2);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.error-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, var(--color-primary), #ff8c61);
+  border-radius: 50%;
+  margin: 0 auto;
+  box-shadow: 0 8px 32px rgba(255, 107, 53, 0.4);
+}
+
+.error-icon i {
+  font-size: 4rem;
+  color: white;
+}
+
+.error-title {
+  color: var(--color-primary);
+  font-weight: 800;
+  font-size: 2.5rem;
+}
+
+.error-message {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.125rem;
+  line-height: 1.7;
+}
+
+/* ========================================
+   NOTIFICATION COMPONENT
+   ======================================== */
+.notification {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-120%);
+  z-index: 9999;
+  max-width: 500px;
+  width: 90%;
+  opacity: 0;
+  transition: all 0.4s ease;
+  pointer-events: none;
+}
+
+.notification.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  pointer-events: all;
+}
+
+.notification-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: var(--color-bg-dark);
+  border-radius: var(--border-radius-lg);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  border: 2px solid var(--color-primary);
+}
+
+.notification.success .notification-content {
+  background: linear-gradient(135deg, #1a5f3d 0%, #267d4f 100%);
+  border-color: #28a745;
+}
+
+.notification.error .notification-content {
+  background: linear-gradient(135deg, #5f1a1a 0%, #7d2626 100%);
+  border-color: #dc3545;
+}
+
+.notification-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.notification-icon i {
+  font-size: 1.5rem;
+  color: white;
+}
+
+.notification.success .notification-icon i {
+  color: #28a745;
+}
+
+.notification.error .notification-icon i {
+  color: #dc3545;
+}
+
+.notification-message {
+  flex: 1;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.notification-close {
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notification-close:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ========================================
    RESPONSIVE STYLES
    ========================================== */
 @media (max-width: 991px) {
@@ -1335,6 +1478,19 @@ section:last-of-type {
   .hero-media-placeholder {
     margin-top: 3rem;
     min-height: 300px;
+  }
+
+  .error-title {
+    font-size: 2rem;
+  }
+
+  .error-icon {
+    width: 100px;
+    height: 100px;
+  }
+
+  .error-icon i {
+    font-size: 3.5rem;
   }
 }
 
@@ -1362,5 +1518,43 @@ section:last-of-type {
 
   .contact-form-wrapper {
     padding: 1.5rem;
+  }
+
+  .error-content {
+    padding: var(--spacing-lg);
+  }
+
+  .error-title {
+    font-size: 1.75rem;
+  }
+
+  .error-icon {
+    width: 80px;
+    height: 80px;
+  }
+
+  .error-icon i {
+    font-size: 3rem;
+  }
+
+  .notification {
+    top: 60px;
+  }
+
+  .notification-content {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .notification-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .notification-icon i {
+    font-size: 1.25rem;
+  }
+
+  .notification-message {
+    font-size: 0.9rem;
   }
 }
